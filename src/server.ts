@@ -22,4 +22,4 @@ app.use((err: Error, request: Request, response: Response, next: NextFunction) =
 })
 
 // http://localhost:3000
-app.listen(3000, () => console.log('Server is running!'))
+app.listen(process.env.PORT, () => console.log('Server is running!'))
