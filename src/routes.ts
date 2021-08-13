@@ -10,6 +10,8 @@ const userController = new UserController()
 const tagController = new TagController()
 const complimentController = new ComplimentController()
 
+router.get('/', () => {return 'api valoriza initial page'})
+
 router.post('/user/create', userController.create)
 router.get('/users/list', onlyAuth, userController.list)
 router.post('/user/auth/login', userController.login)
