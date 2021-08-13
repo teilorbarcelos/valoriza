@@ -10,7 +10,8 @@ interface IComplimentRequest {
 }
 
 class ComplimentService {
-    async execute({user_sender, user_receiver, tag_id, message}: IComplimentRequest) {
+
+    async create({user_sender, user_receiver, tag_id, message}: IComplimentRequest) {
         const complimentsRepository = getCustomRepository(ComplimentsRepository)
         const userRepository = getCustomRepository(UsersRepository)
         
@@ -31,6 +32,16 @@ class ComplimentService {
         return compliment
 
     }
+
+    async list(user_id: string){
+        const complimentsRepository = getCustomRepository(ComplimentsRepository)
+        
+        const complimentsSend = await complimentsRepository.find({user_sender: parseInt(user_id)})
+        const complimentsReceived = await complimentsRepository.find({user_receiver: parseInt(user_id)})
+
+        return {complimentsSend, complimentsReceived}
+    }
+
 }
 
 export {ComplimentService}

@@ -1,8 +1,10 @@
+import { classToPlain } from "class-transformer"
 import { getCustomRepository } from "typeorm"
 import { TagsRepository } from "../repositories/TagsRepository"
 
-class CreateTagService {
-    async execute(name: string) {
+class TagService {
+
+    async create(name: string) {
         const tagsRepository = getCustomRepository(TagsRepository)
 
         if(name.trim() == ''){
@@ -21,6 +23,13 @@ class CreateTagService {
 
         return tag
     }
+
+    async list(){
+        const tagsRepository = getCustomRepository(TagsRepository)
+        const list = tagsRepository.find()
+
+        return classToPlain(list)
+    }
 }
 
-export {CreateTagService}
+export {TagService}

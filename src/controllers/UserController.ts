@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { AuthService } from "../services/AuthService"
-import { CreateUserService } from "../services/CreateUserService"
+import { UserService } from "../services/UserService"
 
 
 class UserController {
@@ -8,9 +8,9 @@ class UserController {
     async create(request: Request, response: Response){
         const {name, email, admin, password} = request.body
 
-        const createUserService = new CreateUserService()
+        const userService = new UserService()
 
-        const user = await createUserService.execute({name, email, admin, password})
+        const user = await userService.create({name, email, admin, password})
 
         return response.json(user)
     }
@@ -23,6 +23,13 @@ class UserController {
         const token = await authUserService.execute({email, password})
 
         return response.json(token)
+    }
+
+    async list(request: Request, response: Response) {
+        const userService = new UserService()
+        const users = await userService.list()
+
+        return response.json(users)
     }
 
 }
