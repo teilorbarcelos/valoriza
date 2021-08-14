@@ -4,13 +4,15 @@ import { TagController } from "./controllers/TagController"
 import { onlyAdmin } from "./middlewares/onlyAdmin"
 import { ComplimentController } from "./controllers/ComplimentController"
 import { onlyAuth } from "./middlewares/onlyAuth"
+import { HomeController } from "./controllers/HomeController"
 
 const router = Router()
+const homeController = new HomeController()
 const userController = new UserController()
 const tagController = new TagController()
 const complimentController = new ComplimentController()
 
-router.get('/', () => {return 'api valoriza initial page'})
+router.get('/', homeController.show)
 
 router.post('/user/create', userController.create)
 router.get('/users/list', onlyAuth, userController.list)
