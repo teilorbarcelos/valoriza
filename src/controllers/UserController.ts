@@ -18,9 +18,9 @@ class UserController {
     async login(request: Request, response: Response){
         const {email, password} = request.body
 
-        const authUserService = new AuthService()
+        const authService = new AuthService()
 
-        const token = await authUserService.execute({email, password})
+        const token = await authService.login({email, password})
 
         return response.json(token)
     }
