@@ -19,7 +19,12 @@ class AuthService {
 
         const token = sign({email: user.email}, process.env.HASH_MD5, {subject: user.id.toString(), expiresIn: '1d'})
 
-        return token
+        return {
+            uid: user.id,
+            name: user.name,
+            email: user.email,
+            token
+        }
     }
 }
 
