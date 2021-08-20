@@ -1,11 +1,17 @@
 import { compare } from "bcryptjs"
-import { sign } from "jsonwebtoken"
+import { classToPlain } from "class-transformer"
+import { sign, verify } from "jsonwebtoken"
 import { getCustomRepository } from "typeorm"
 import { UsersRepository } from "../repositories/UsersRepositiry"
 
 interface IAuthRequest {
     email: string
     password: string
+}
+
+interface IPayload {
+    email: string
+    sub: string
 }
 
 class AuthService {
@@ -20,11 +26,23 @@ class AuthService {
         const token = sign({email: user.email}, process.env.HASH_MD5, {subject: user.id.toString(), expiresIn: '1d'})
 
         return {
-            uid: user.id,
-            name: user.name,
-            email: user.email,
-            token
+            token,
+            user: {
+                uid: user.id,
+                name: user.name,
+                email: user.email
+            }
         }
+    }
+
+    async verify(token: string){
+        const result = verify(token, process.env.HASH_MD5) as IPayload
+        const usersRepository = getCustomRepository(UsersRepository)
+        const email = result.email
+        const user = await usersRepository.findOne({email})
+
+        return classToPlain(user)
+
     }
 }
 

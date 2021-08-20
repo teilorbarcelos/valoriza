@@ -16,6 +16,7 @@ router.get('/', homeController.show)
 
 router.post('/user/create', userController.create)
 router.get('/users/list', onlyAuth, userController.list)
+router.get('/user/get', onlyAuth, userController.get)
 router.post('/user/auth/login', userController.login)
 
 router.post('/tag/create', onlyAuth, onlyAdmin, tagController.create)

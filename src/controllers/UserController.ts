@@ -32,6 +32,14 @@ class UserController {
         return response.json(users)
     }
 
+    async get(request: Request, response: Response) {
+        const {token} = request.body
+        const authService = new AuthService()
+        const user = await authService.verify(token)
+
+        return response.json(user)
+    }
+
 }
 
 export {UserController}
