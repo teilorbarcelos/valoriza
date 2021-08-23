@@ -41,7 +41,12 @@ class AuthService {
         const email = result.email
         const user = await usersRepository.findOne({email})
 
-        return classToPlain(user)
+        const finalUser = {
+            token,
+            user: classToPlain(user)
+        }
+
+        return finalUser
 
     }
 }
